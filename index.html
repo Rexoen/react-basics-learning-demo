@@ -16,24 +16,58 @@
     <body>
         <div id="app">
             <script type="text/babel">
-                function Hello(props){
-                return <div>
-                    <h1>Hello,{props.name}</h1>
-                    <p>Age: {props.age}</p>
-                    <p>Hobby: {props.hobby}</p>
-                </div>
+                class Hello extends React.Component{
+                constructor(props){
+                    console.log('初始化阶段');
+                    // 初始化 props
+                    super(props);
+                    // 初始化 state
+                    this.state = {
+                    name: 'rex',
+                    age: 25,
+                    hobby: 'Coding'
+                    }
                 }
-                class HelloRex extends React.Component{
+                componentWillMount(){
+                    console.log('组件加载之前的阶段')
+                    // 组件加载之前的阶段，可以在这里发 ajax 请求一些数据
+                }
+                componentDidMount(){
+                    console.log('组件加载渲染后')
+                    //this.setState({
+                    //name : 'goodman'
+                    //})
+                }
+                updateUser = () => {
+                    // 错误语法(不会去调用render)
+                    // this.state.name == 'GoodMan';
+                    this.setState({
+                        name:'GoodMan',
+                        age: '26'
+                    })
+                }
+                shouldComponentUpdate(){
+                    console.log('数据是否需要更新');
+                    return true;
+                }
+                componentWillUpdate(){
+                    console.log('数据将要更新')
+                }
+                componentDidUpdate(){
+                    console.log('数据已经更新')
+                }
                 render(){
+                    console.log('组件加载或者数据更新')
                 return <div>
-                    <h1>Hello,{this.props.name}</h1>
-                    <p>Age: {this.props.age}</p>
-                    <p>Hobby: {this.props.hobby}</p>
+                    <h1>Hello,{this.state.name}</h1>
+                    <p>Age: {this.state.age}</p>
+                    <p>Hobby: {this.state.hobby}</p>
+                    <button onClick={this.updateUser}>更新数据</button>
                 </div>
                 }
                 }
                 ReactDOM.render(
-                <Hello name="Rex" age="25" hobby="Coding"/>
+                <Hello />
                                     ,document.getElementById('app'));
             </script>
         </div>
