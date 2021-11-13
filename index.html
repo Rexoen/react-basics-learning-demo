@@ -16,21 +16,25 @@
     <body>
         <div id="app">
             <script type="text/babel">
-                function tick(){
-                var time = new Date().toLocaleTimeString();
-                var name = 'Rex'
-                var ele = <div>
-                <h1 className="red" name="rex">Hello {name}!</h1>
-                <h2>现在是北京时间: {time}</h2>
-                </div>;
-                ReactDOM.render(ele
-                                    ,document.getElementById('app'));
+                function Hello(props){
+                return <div>
+                    <h1>Hello,{props.name}</h1>
+                    <p>Age: {props.age}</p>
+                    <p>Hobby: {props.hobby}</p>
+                </div>
                 }
-                var hello = React.createElement('h1',{
-                                    className:'red',
-                                    name:'rex'
-                                },"Hello world");
-                setInterval(tick,1000)
+                class HelloRex extends React.Component{
+                render(){
+                return <div>
+                    <h1>Hello,{this.props.name}</h1>
+                    <p>Age: {this.props.age}</p>
+                    <p>Hobby: {this.props.hobby}</p>
+                </div>
+                }
+                }
+                ReactDOM.render(
+                <Hello name="Rex" age="25" hobby="Coding"/>
+                                    ,document.getElementById('app'));
             </script>
         </div>
     </body>
