@@ -27,17 +27,23 @@
                     age: 25,
                     hobby: 'Coding'
                     }
+                    // 绑定this 到函数
+                    // this.updateUser = this.updateUser.bind(this)
                 }
-                componentWillMount(){
-                    console.log('组件加载之前的阶段')
-                    // 组件加载之前的阶段，可以在这里发 ajax 请求一些数据
-                }
-                componentDidMount(){
-                    console.log('组件加载渲染后')
-                    //this.setState({
-                    //name : 'goodman'
-                    //})
-                }
+                // 错误写法 无法访问正确的this
+                // 一般应当使用箭头函数定义对象的方法
+                // 也可以通过在构造函数中绑定this来实现这种用法
+                // 第三种方法可以在标签事件中使用空的箭头函数来指向方法来控制作用域
+                // 第四种方法可以在标签事件的函数末尾加上.bind(this)
+                //updateUser(){
+                //    console.log(this);
+                //    //this.setState({
+                //    //    name:'GoodMan',
+                //    //    age: '26'
+                //    //})
+                //}
+
+                // React 中标准对象函数的写法
                 updateUser = () => {
                     // 错误语法(不会去调用render)
                     // this.state.name == 'GoodMan';
@@ -45,16 +51,6 @@
                         name:'GoodMan',
                         age: '26'
                     })
-                }
-                shouldComponentUpdate(){
-                    console.log('数据是否需要更新');
-                    return true;
-                }
-                componentWillUpdate(){
-                    console.log('数据将要更新')
-                }
-                componentDidUpdate(){
-                    console.log('数据已经更新')
                 }
                 render(){
                     console.log('组件加载或者数据更新')
