@@ -16,54 +16,60 @@
     <body>
         <div id="app">
             <script type="text/babel">
-                class Hello extends React.Component{
-                constructor(props){
-                    console.log('初始化阶段');
-                    // 初始化 props
-                    super(props);
-                    // 初始化 state
-                    this.state = {
-                    name: 'rex',
-                    age: 25,
-                    hobby: 'Coding'
-                    }
-                    // 绑定this 到函数
-                    // this.updateUser = this.updateUser.bind(this)
+                // 组件的首字母必须大写 不然会报错
+                function Login(props){
+                    return <button onClick={props.updateUser}>Login</button>
                 }
-                // 错误写法 无法访问正确的this
-                // 一般应当使用箭头函数定义对象的方法
-                // 也可以通过在构造函数中绑定this来实现这种用法
-                // 第三种方法可以在标签事件中使用空的箭头函数来指向方法来控制作用域
-                // 第四种方法可以在标签事件的函数末尾加上.bind(this)
-                //updateUser(){
-                //    console.log(this);
-                //    //this.setState({
-                //    //    name:'GoodMan',
-                //    //    age: '26'
-                //    //})
+                function Logout(props){
+                    return <button onClick={props.updateUser}>Logout</button>
+                }
+                class App extends React.Component{
+                // 两种方式来初始化状态
+                // 第一种通过构造器(较麻烦)
+                //constructor(props){
+                //    console.log('初始化阶段');
+                //    // 初始化 props
+                //    super(props);
+                //    // 初始化 state
+                //    this.state = {
+                //        isLogin: false
+                //    }
                 //}
+
+                //第二种 直接声明 state 来初始化状态
+                state = {
+                    isLogin: false
+                }
 
                 // React 中标准对象函数的写法
                 updateUser = () => {
                     // 错误语法(不会去调用render)
                     // this.state.name == 'GoodMan';
                     this.setState({
-                        name:'GoodMan',
-                        age: '26'
+                        isLogin:!this.state.isLogin,
                     })
                 }
                 render(){
+                    const isLogin = this.state.isLogin;
+                    let button;
+                    // 也可以在下方 JSX 中使用三元表达式
+                    //if (isLogin){
+                    //    button = <Logout/>
+                    //} else {
+                    //    button = <Login/>
+                    //}
+                    // 子组件触发父组件方法需要给JSX中子组件添加指向父节点方法的属性,然后子组件中继承props并添加事件call对应方法
                     console.log('组件加载或者数据更新')
                 return <div>
                     <h1>Hello,{this.state.name}</h1>
                     <p>Age: {this.state.age}</p>
                     <p>Hobby: {this.state.hobby}</p>
-                    <button onClick={this.updateUser}>更新数据</button>
+                    {isLogin?<Logout updateUser={this.updateUser}/>:<Login updateUser={this.updateUser}/>}
                 </div>
                 }
                 }
                 ReactDOM.render(
-                <Hello />
+                <App/>
                                     ,document.getElementById('app'));
             </script>
         </div>
