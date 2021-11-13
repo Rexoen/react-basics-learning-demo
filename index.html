@@ -17,13 +17,7 @@
         <div id="app">
             <script type="text/babel">
                 // 组件的首字母必须大写 不然会报错
-                function Login(props){
-                    return <button onClick={props.updateUser}>Login</button>
-                }
-                function Logout(props){
-                    return <button onClick={props.updateUser}>Logout</button>
-                }
-                class App extends React.Component{
+                class List extends React.Component{
                 // 两种方式来初始化状态
                 // 第一种通过构造器(较麻烦)
                 //constructor(props){
@@ -38,38 +32,47 @@
 
                 //第二种 直接声明 state 来初始化状态
                 state = {
-                    isLogin: false
+                    //list: [1,2,3,4,5]
+                    list:[
+                        {id:1,text:'React'},
+                        {id:3,text:'next.js'},
+                        {id:4,text:'Svelte'}
+                    ]
                 }
 
-                // React 中标准对象函数的写法
-                updateUser = () => {
-                    // 错误语法(不会去调用render)
-                    // this.state.name == 'GoodMan';
-                    this.setState({
-                        isLogin:!this.state.isLogin,
-                    })
-                }
                 render(){
-                    const isLogin = this.state.isLogin;
-                    let button;
-                    // 也可以在下方 JSX 中使用三元表达式
-                    //if (isLogin){
-                    //    button = <Logout/>
-                    //} else {
-                    //    button = <Login/>
+                    const arr = this.state.list;
+                    const listItem = []
+                    //// map 循环
+                    //arr.map((item)=>{
+                    //    let li = <li>{item}</li>;
+                    //    listItem.push(li)
+                    //})
+
+                    // for 遍历(ES6)
+                    //for (let item of arr){
+                    //    let li = <li>{item}</li>
+                    //    listItem.push(li)
                     //}
-                    // 子组件触发父组件方法需要给JSX中子组件添加指向父节点方法的属性,然后子组件中继承props并添加事件call对应方法
-                    console.log('组件加载或者数据更新')
-                return <div>
-                    <h1>Hello,{this.state.name}</h1>
-                    <p>Age: {this.state.age}</p>
-                    <p>Hobby: {this.state.hobby}</p>
-                    {isLogin?<Logout updateUser={this.updateUser}/>:<Login updateUser={this.updateUser}/>}
-                </div>
+
+                    // 常规 for 循环
+                    for (let i=0;i<arr.length;i++){
+                        let li = <li key={arr[i].id}>{arr[i].text}</li>;
+                        listItem.push(li);
+                    }
+
+                    // 常规 map 用法
+                    // var la = arr.map((item)=><li>{item}</li>)
+                    return <div>
+                        <ul>
+                            {listItem}
+                        </ul>
+                    </div>
+
                 }
                 }
                 ReactDOM.render(
-                <App/>
+                <List/>
                                     ,document.getElementById('app'));
             </script>
         </div>
