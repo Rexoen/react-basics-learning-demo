@@ -17,7 +17,7 @@
         <div id="app">
             <script type="text/babel">
                 // 组件的首字母必须大写 不然会报错
-                class List extends React.Component{
+                class TodoList extends React.Component{
                 // 两种方式来初始化状态
                 // 第一种通过构造器(较麻烦)
                 //constructor(props){
@@ -32,22 +32,38 @@
 
                 //第二种 直接声明 state 来初始化状态
                 state = {
-                    //list: [1,2,3,4,5]
-                    list:[
-                        {id:1,text:'React'},
-                        {id:3,text:'next.js'},
-                        {id:4,text:'Svelte'}
-                    ]
+                    val :'',
+                    list:[]
                 }
+                handleInput = (event)=>{
+                    this.setState({
+                        val:event.target.value
+                    })
+                }
+                handleAdd = ()=>{
+                    // 常规语法
+                    //const val = this.state.val;
+                    //const list = this.state.list;
+                    // ES6 解构语法
+                    const {val,list} = this.state;
+                    list.push(val);
+                    this.setState({
+                        // 常规写法
+                        //list:list
 
+                        // ES6写法:key和value一样的时候可以省略key
+                        list
+                    })
+                }
                 render(){
+                    const val = this.state.val;
                     const arr = this.state.list;
                     const listItem = []
-                    //// map 循环
-                    //arr.map((item)=>{
-                    //    let li = <li>{item}</li>;
-                    //    listItem.push(li)
-                    //})
+                    // map 循环
+                    arr.map((item,index)=>{
+                        let li = <li key={index}>{item}</li>;
+                        listItem.push(li)
+                    })
 
                     // for 遍历(ES6)
                     //for (let item of arr){
@@ -56,14 +72,16 @@
                     //}
 
                     // 常规 for 循环
-                    for (let i=0;i<arr.length;i++){
-                        let li = <li key={arr[i].id}>{arr[i].text}</li>;
-                        listItem.push(li);
-                    }
+                    //for (let i=0;i<arr.length;i++){
+                    //    let li = <li key={arr[i].id}>{arr[i].text}</li>;
+                    //    listItem.push(li);
+                    //}
 
                     // 常规 map 用法
                     // var la = arr.map((item)=><li>{item}</li>)
                     return <div>
+                        <input type="text" value={val} onChange={this.handleInput}/>
+                        <button onClick={this.handleAdd}>添加</button>
                         <ul>
                             {listItem}
                         </ul>
@@ -72,7 +90,7 @@
                 }
                 }
                 ReactDOM.render(
-                <List/>
+                <TodoList/>
                                     ,document.getElementById('app'));
             </script>
         </div>
